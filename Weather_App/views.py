@@ -12,13 +12,21 @@ Weather_API_URl = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}
 # Create your views here.
 def index(request):
 
-    # Get city coordinate
-    lat, lon = get_geocoding_api_response("London", "1")
+    if request.method == "POST":
 
-    # Get weather for that city
-    get_weather_api_response(lat, lon)
+        # Get City from form
+        city = request.POST.get("city")
 
-    return HttpResponse()
+        # Get city coordinate
+        lat, lon = get_geocoding_api_response(city, "1")
+
+        # Get weather for that city
+        weather_response = get_weather_api_response(lat, lon)
+
+        return render(request, "weather/index.html", weather_response)
+        
+
+    return render(request, "weather/index.html")
 
 
 # Function to send api call for Geocoding API
@@ -26,10 +34,12 @@ def get_geocoding_api_response(city: str, limit: str):
     
     # Send Get request to Geocoding url and format response as a json object
     geocoding_api_respone = requests.get(Geocoding_API_URL.format(city, limit, API_KEY)).json()
-    
+
+    print(geocoding_api_respone)
+
     # Get latitude and longitude of the city location 
     lat, lon = geocoding_api_respone[0]["lat"], geocoding_api_respone[0]["lon"]
-
+    
     return lat, lon
 
 def get_weather_api_response(lat: int, lon: int):
@@ -39,5 +49,5 @@ def get_weather_api_response(lat: int, lon: int):
 
     print(weather_api_response)
 
-    return
+    return weather_api_response
 
