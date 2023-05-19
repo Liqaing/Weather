@@ -6,27 +6,39 @@ from django.http import HttpResponse
 # URL and API key for making API call
 API_KEY = "4da3135aeca586f32bb18c5c27d81cdb"
 Geocoding_API_URL = "http://api.openweathermap.org/geo/1.0/direct?q={}&limit={}&appid={}"
-Weather_API_URl = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}"
+Weather_API_URl = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}&units=metric"
 
 
 # Create your views here.
 def index(request):
-
     if request.method == "POST":
 
         # Get City from form
-        city = request.POST.get("city")
+        city = request.POST["city"]
 
         # Get city coordinate
         lat, lon = get_geocoding_api_response(city, "1")
 
         # Get weather for that city
-        weather_response = get_weather_api_response(lat, lon)
+        weather = get_weather_api_response(lat, lon)
 
-        return render(request, "weather/index.html", weather_response)
-        
+        # Organize data into a dictionary
+        context = {
+            "weather": {
+                "City": weather["name"],
+                "Country_code": weather["sys"]["country"],
+                "Weather_description": weather["weather"][0]["description"],
+                "Weather_icon": weather["weather"][0]["icon"],
+                "Temperature": weather["main"]["temp"],
+                "Humidity": weather["main"]["humidity"],
+                "Wind_speed": weather["wind"]["speed"]
+            }
+        }
 
-    return render(request, "weather/index.html")
+        return render(request, "weather/index.html", context)
+    
+    else:
+        return render(request, "weather/index.html")
 
 
 # Function to send api call for Geocoding API
