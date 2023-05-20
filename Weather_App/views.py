@@ -15,25 +15,47 @@ def index(request):
 
         # Get City from form
         city = request.POST["city"]
-
-        # Get city coordinate
+        if not city:
+            return render(request, "weather/index.html")
+        
+        # Get city coordinate, if city doesn't exist lat and lon = 0
         lat, lon = get_geocoding_api_response(city, "1")
 
         # Get weather for that city
         weather = get_weather_api_response(lat, lon)
 
-        # Organize data into a dictionary
-        context = {
-            "weather": {
-                "City": weather["name"],
-                "Country_code": weather["sys"]["country"],
-                "Weather_description": weather["weather"][0]["description"],
-                "Weather_icon": weather["weather"][0]["icon"],
-                "Temperature": weather["main"]["temp"],
-                "Humidity": weather["main"]["humidity"],
-                "Wind_speed": weather["wind"]["speed"]
+        """
+            Try to organize data into a dictionary, except when lat and lon = 0
+            weather api will response "global" weather which have no country code
+            so use sencond dict that don't have country code instead
+        """
+        try:
+            context = {
+                "weather": {
+                    "City": weather["name"],
+                    "Country_code": weather["sys"]["country"],
+                    "Weather_description": weather["weather"][0]["description"],
+                    "Weather_icon": weather["weather"][0]["icon"],
+                    "Temperature": weather["main"]["temp"],
+                    "Humidity": weather["main"]["humidity"],
+                    "Wind_speed": weather["wind"]["speed"],
+                    "dt_of_calculation": weather["dt"],
+                    "current_dt": weather["dt"] + weather["timezone"]
+                }
             }
-        }
+        except KeyError:
+            context = {
+                "weather": {
+                    "City": weather["name"],
+                    "Weather_description": weather["weather"][0]["description"],
+                    "Weather_icon": weather["weather"][0]["icon"],
+                    "Temperature": weather["main"]["temp"],
+                    "Humidity": weather["main"]["humidity"],
+                    "Wind_speed": weather["wind"]["speed"],
+                    "dt_of_calculation": weather["dt"],
+                    "current_dt": weather["dt"] + weather["timezone"]
+                }
+            }
 
         return render(request, "weather/index.html", context)
     
@@ -46,8 +68,8 @@ def get_geocoding_api_response(city: str, limit: str):
     
     # Send Get request to Geocoding url and format response as a json object
     geocoding_api_respone = requests.get(Geocoding_API_URL.format(city, limit, API_KEY)).json()
-
-    print(geocoding_api_respone)
+    if not geocoding_api_respone:
+        return 0, 0
 
     # Get latitude and longitude of the city location 
     lat, lon = geocoding_api_respone[0]["lat"], geocoding_api_respone[0]["lon"]
@@ -58,8 +80,6 @@ def get_weather_api_response(lat: int, lon: int):
 
     # Send the request
     weather_api_response = requests.get(Weather_API_URl.format(lat, lon, API_KEY)).json()
-
-    print(weather_api_response)
 
     return weather_api_response
 
