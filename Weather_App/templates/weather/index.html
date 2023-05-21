@@ -1,20 +1,37 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'weather/style.css' %}">
+    <title>Weather</title>
 </head>
 <body>
-    <form action="{% url 'index' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="city" placeholder="City">
-        <input type="submit" value="Get Weather">
-    </form>
-
-    {% if weather %}
-        {{ weather }}
-    {% endif %}
+    <div class="layout-container">
+        <div class="content-container">
+            <form action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <div class="row gx-3">
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="city" placeholder="City">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" class="btn btn-primary" value="Get Weather">
+                    </div>
+                </div>
+            </form>
+            
+            <div>
+                {% if weather %}
+                    {{ weather }}
+                {% endif %}
+            </div>
+        </div>
+        
+    </div>
 </body>
 </html>

@@ -6,8 +6,8 @@ from django.http import HttpResponse
 # URL and API key for making API call
 API_KEY = "4da3135aeca586f32bb18c5c27d81cdb"
 Geocoding_API_URL = "http://api.openweathermap.org/geo/1.0/direct?q={}&limit={}&appid={}"
-Weather_API_URl = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}&units=metric"
-
+Weather_API_URL = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}&units=metric"
+Forcast_API_URL = "api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}"
 
 # Create your views here.
 def index(request):
@@ -79,7 +79,7 @@ def get_geocoding_api_response(city: str, limit: str):
 def get_weather_api_response(lat: int, lon: int):
 
     # Send the request
-    weather_api_response = requests.get(Weather_API_URl.format(lat, lon, API_KEY)).json()
+    weather_api_response = requests.get(Weather_API_URL.format(lat, lon, API_KEY)).json()
 
     return weather_api_response
 
