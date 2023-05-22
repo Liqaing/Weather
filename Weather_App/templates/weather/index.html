@@ -15,7 +15,7 @@
         <div class="content-container">
             <form action="{% url 'index' %}" method="POST">
                 {% csrf_token %}
-                <div class="row gx-3">
+                <div class="row gx-3 gy-3">
                     <div class="col-md-10">
                         <input type="text" class="form-control" name="city" placeholder="City">
                     </div>
@@ -25,9 +25,12 @@
                 </div>
             </form>
             
-            <div>
+            <div class="weather-container">
                 {% if weather %}
-                    {{ weather }}
+                <div class="inline-display-container">
+                    <h2 class="inline-display-child ml-3"><strong>{{ weather.City }}</strong></h2>
+                    <p class="inline-display-child"> {{weather.Country_code}} </p>
+                </div>
                 {% endif %}
             </div>
         </div>
