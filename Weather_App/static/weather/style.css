@@ -15,11 +15,3 @@
 .weather-container {
     margin-top: 20px;
 }
-
-.inline-display-container {
-    white-space: nowrap;
-}
-
-.inline-display-child {
-    display: inline-block;
-}

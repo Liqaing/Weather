@@ -27,10 +27,18 @@
             
             <div class="weather-container">
                 {% if weather %}
-                <div class="inline-display-container">
-                    <h2 class="inline-display-child ml-3"><strong>{{ weather.City }}</strong></h2>
-                    <p class="inline-display-child"> {{weather.Country_code}} </p>
-                </div>
+                    <h2>
+                        <strong class="me-2">{{ weather.City }}</strong>
+                        <small class="text-muted">{{ weather.Country_code }}</small>
+                    </h2>
+                    <img src=" https://openweathermap.org/img/wn/{{weather.Weather_icon}}.png" class="img-fluid" width="85" height="85" alt="Weather Icon">
+                    <p class="h2 d-inline">{{ weather.Temperature }} &#8451</p>                    
+                    <p class="h5">Description: {{ weather.Weather_description }}</p>
+                    <p class="h6">
+                        Humidity: {{weather.Humidity}}%
+                        <span>&nbsp;</span>
+                        Wind Speed: {{weather.Wind_speed}} m/s
+                    </p>
                 {% endif %}
             </div>
         </div>
