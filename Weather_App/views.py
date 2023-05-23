@@ -59,8 +59,8 @@ def index(request):
 
         return render(request, "weather/index.html", context)
     
-    else:
-        return render(request, "weather/index.html")
+
+    return render(request, "weather/index.html")
 
 
 # Function to send api call for Geocoding API
