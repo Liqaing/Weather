@@ -15,17 +15,17 @@
         <div class="content-container">
             <form action="{% url 'index' %}" method="POST">
                 {% csrf_token %}
-                <div class="row gx-3 gy-3">
-                    <div class="col-md-10">
+                <div class="row gx-3 gy-3 bg">
+                    <div class="col-md-9">
                         <input type="text" class="form-control" name="city" placeholder="City">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <input type="submit" class="btn btn-primary" value="Get Weather">
                     </div>
                 </div>
             </form>
             
-            <div class="weather-container">
+            <div class="weather-container"> 
                 {% if weather %}
                     <h2>
                         <strong class="me-2">{{ weather.City }}</strong>
@@ -33,11 +33,17 @@
                     </h2>
                     <img src=" https://openweathermap.org/img/wn/{{weather.Weather_icon}}.png" class="img-fluid" width="85" height="85" alt="Weather Icon">
                     <p class="h2 d-inline">{{ weather.Temperature }} &#8451</p>                    
-                    <p class="h5">Description: {{ weather.Weather_description }}</p>
+                    <p class="h5 text-capitalize">Description: {{ weather.Weather_description }}</p>
                     <p class="h6">
                         Humidity: {{weather.Humidity}}%
                         <span>&nbsp;</span>
                         Wind Speed: {{weather.Wind_speed}} m/s
+                    </p>
+                    <p class="h6">
+                        Time of data calculation: {{weather.dt_of_calculation}}
+                    </p>
+                    <p class="h6">
+                        Current time: {{weather.current_dt}}
                     </p>
                 {% endif %}
             </div>
