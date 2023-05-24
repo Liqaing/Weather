@@ -1,4 +1,5 @@
 import requests
+import datetime
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -24,38 +25,12 @@ def index(request):
         # Get weather for that city
         weather = get_weather_api_response(lat, lon)
 
-        """
-            Try to organize data into a dictionary, except when lat and lon = 0
-            weather api will response "global" weather which have no country code
-            so use sencond dict that don't have country code instead
-        """
-        try:
-            context = {
-                "weather": {
-                    "City": weather["name"],
-                    "Country_code": weather["sys"]["country"],
-                    "Weather_description": weather["weather"][0]["description"],
-                    "Weather_icon": weather["weather"][0]["icon"],
-                    "Temperature": weather["main"]["temp"],
-                    "Humidity": weather["main"]["humidity"],
-                    "Wind_speed": weather["wind"]["speed"],
-                    "dt_of_calculation": weather["dt"],
-                    "current_dt": weather["dt"] + weather["timezone"]
-                }
-            }
-        except KeyError:
-            context = {
-                "weather": {
-                    "City": weather["name"],
-                    "Weather_description": weather["weather"][0]["description"],
-                    "Weather_icon": weather["weather"][0]["icon"],
-                    "Temperature": weather["main"]["temp"],
-                    "Humidity": weather["main"]["humidity"],
-                    "Wind_speed": weather["wind"]["speed"],
-                    "dt_of_calculation": weather["dt"],
-                    "current_dt": weather["dt"] + weather["timezone"]
-                }
-            }
+        # Convert UTC to datetime
+        weather["dt"] = datetime.datetime.fromtimestamp(weather["dt"])
+
+        context = {
+            "weather": weather
+        }
 
         return render(request, "weather/index.html", context)
     

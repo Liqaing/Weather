@@ -28,23 +28,17 @@
             <div class="weather-container"> 
                 {% if weather %}
                     <h2>
-                        <strong class="me-2">{{ weather.City }}</strong>
-                        <small>{{ weather.Country_code }}</small>
+                        <strong class="me-2">{{ weather.name }}</strong>
+                        <small>{{ weather.sys.country }}</small>
                     </h2>
-                    <img src=" https://openweathermap.org/img/wn/{{weather.Weather_icon}}.png" class="img-fluid" width="85" height="85" alt="Weather Icon">
-                    <p class="h2 d-inline fw-bold">{{ weather.Temperature }} &#8451</p>                    
-                    <p class="h5 text-capitalize">Description: {{ weather.Weather_description }}</p>
+                    <img src=" https://openweathermap.org/img/wn/{{weather.weather.0.icon}}.png" class="img-fluid" width="85" height="85" alt="Weather Icon">
+                    <p class="h2 d-inline-block fw-bold">{{ weather.main.temp }} &#8451</p>                    
+                    <p class="h5 text-capitalize">Description: {{ weather.weather.0.description }}</p>
+                    <p class="h6">Humidity: {{weather.main.humidity}} %</p>
+                    <p class="h6">Humidity: {{weather.main.humidity}} %</p>
+                    <p class="h6">Wind Speed: {{weather.wind.speed}} m/s</p>
                     <p class="h6">
-                        Humidity: {{weather.Humidity}}%
-                        <span>&nbsp;</span>
-                        
-                    </p>
-                    <p class="h6">Wind Speed: {{weather.Wind_speed}} m/s</p>
-                    <p class="h6">
-                        Time of data calculation: {{weather.dt_of_calculation}}
-                    </p>
-                    <p class="h6">
-                        Current time: {{weather.current_dt}}
+                        Time Of Data Calculation: {{weather.dt}}
                     </p>
                 {% endif %}
             </div>
