@@ -8,7 +8,7 @@ from django.http import HttpResponse
 API_KEY = "4da3135aeca586f32bb18c5c27d81cdb"
 Geocoding_API_URL = "http://api.openweathermap.org/geo/1.0/direct?q={}&limit={}&appid={}"
 Weather_API_URL = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}&units=metric"
-Forcast_API_URL = "https://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}"
+Forcast_API_URL = "https://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&cnt=12&appid={}&units=metric"
 
 # Create your views here.
 def index(request):
@@ -25,14 +25,12 @@ def index(request):
         # Get weather for that city
         weather = get_weather_api_response(lat, lon)
 
-        # Convert UTC to datetime
-        weather["dt"] = datetime.datetime.fromtimestamp(weather["dt"])
-
         # Call forcast API
         forcast = get_forcast_api_response(lat, lon)
 
         context = {
-            "weather": weather
+            "weather": weather,
+            "forcast": forcast
         }
 
         return render(request, "weather/index.html", context)
@@ -59,6 +57,9 @@ def get_weather_api_response(lat: int, lon: int):
     # Send the request
     weather_api_response = requests.get(Weather_API_URL.format(lat, lon, API_KEY)).json()
 
+    # Convert UTC to datetime
+    weather_api_response["dt"] = datetime.datetime.fromtimestamp(weather_api_response["dt"])
+
     return weather_api_response
 
 def get_forcast_api_response(lat: int, lon: int):
@@ -66,6 +67,10 @@ def get_forcast_api_response(lat: int, lon: int):
     # Send the request
     forcast_api_response = requests.get(Forcast_API_URL.format(lat, lon, API_KEY)).json()
     
-    print(forcast_api_response)
-    print("HI")
+    # Convert UTC to local time
+    for forcast in forcast_api_response["list"]:
+        forcast["dt"] = datetime.datetime.fromtimestamp(forcast["dt"]).strftime("%d-%m-%y")
+
+    # Take out
+
     return forcast_api_response
