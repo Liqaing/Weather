@@ -10,20 +10,6 @@ html, body {
     background-repeat: no-repeat;
 }
 
-.content-container {
-    display: block;
-    width: 50%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
 .weather-container {
     margin-top: 20px;
-}
-
-@media (max-width: 640px) 
-{
-    .content-container
-    {
-        display: none;
-    }
 }
