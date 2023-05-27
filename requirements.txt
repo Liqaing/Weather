@@ -58,6 +58,7 @@ pyOpenSSL==19.0.0
 pyrsistent==0.15.5
 pyserial==3.4
 python-apt==2.0.1
+python-dateutil==2.8.2
 python-debian===0.1.36ubuntu1
 PyYAML==5.3.1
 requests==2.22.0
@@ -74,6 +75,7 @@ submit50==3.1.1
 systemd-python==234
 termcolor==2.2.0
 Twisted==18.9.0
+tzdata==2022.7
 ubuntu-advantage-tools==8001
 ufw==0.36
 unattended-upgrades==0.1
