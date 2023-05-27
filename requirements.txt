@@ -8,6 +8,7 @@ certifi==2019.11.28
 chardet==3.0.4
 click==8.1.3
 cloud-init==22.4.2
+cloud-init-gen==1.2.0
 colorama==0.4.3
 command-not-found==0.3
 configobj==5.0.6
@@ -58,9 +59,8 @@ pyOpenSSL==19.0.0
 pyrsistent==0.15.5
 pyserial==3.4
 python-apt==2.0.1
-python-dateutil==2.8.2
 python-debian===0.1.36ubuntu1
-PyYAML==5.3.1
+PyYAML==6.0
 requests==2.22.0
 requests-unixsocket==0.2.0
 SecretStorage==2.3.1
@@ -75,7 +75,6 @@ submit50==3.1.1
 systemd-python==234
 termcolor==2.2.0
 Twisted==18.9.0
-tzdata==2022.7
 ubuntu-advantage-tools==8001
 ufw==0.36
 unattended-upgrades==0.1
@@ -84,9 +83,3 @@ wadllib==1.3.3
 Werkzeug==2.2.3
 zipp==1.0.0
 zope.interface==4.7.1
-click==7.1.2
-Flask==1.1.2
-itsdangerous==1.1.0
-Jinja2==2.11.3
-MarkupSafe==1.1.1
-Werkzeug==1.0.1
