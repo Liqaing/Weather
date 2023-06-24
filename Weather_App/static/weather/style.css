@@ -4,7 +4,7 @@ html, body {
 }
 
 #background {
-    background-image: url("https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg");
+    background-image: url("background.jpg");
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
